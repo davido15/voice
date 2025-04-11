@@ -5,24 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Voice Chat</title>
   <style>
-    * {
-      box-sizing: border-box;
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3f4f6;
     }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #f3f4f6;
-      font-family: 'Segoe UI', sans-serif;
+    .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
 
     h1 {
-      margin-bottom: 8px;
       color: #1f2937;
+      margin-bottom: 8px;
     }
 
     p {
@@ -38,14 +39,15 @@
 </head>
 <body>
 
-  <h1>Talk to AI</h1>
-  <p>Ask anything — just speak 🎤</p>
+  <div class="container">
+    <h1>Talk to AI</h1>
+    <p>Ask anything — just speak 🎤</p>
 
-  <!-- Your ElevenLabs Agent -->
-  <elevenlabs-convai agent-id="RjxwQJi2L14jPiXtEmOo"></elevenlabs-convai>
+    <!-- ElevenLabs Widget -->
+    <elevenlabs-convai agent-id="RjxwQJi2L14jPiXtEmOo"></elevenlabs-convai>
+  </div>
 
-  <!-- Load ElevenLabs Widget Script -->
+  <!-- ElevenLabs Script -->
   <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-
 </body>
 </html>
