@@ -1,132 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Voice Interaction</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Voice Assistant</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      background-color: #f0f0f0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
-    .container {
-      text-align: center;
+
+    h1 {
+      color: #1f2937;
+      margin-bottom: 8px;
     }
-    .status {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      font-weight: bold;
+
+    p {
+      color: #4b5563;
+      margin-bottom: 24px;
     }
-    .response {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      color: #333;
-    }
-    .button {
-      margin-top: 20px;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      background-color: #3B82F6;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
+
+    elevenlabs-convai {
+      width: 350px;
+      max-width: 100%;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>AI Voice Interaction</h1>
-    <button id="startButton" class="button">Start Talking</button>
-    <div class="status"></div>
-    <div class="response"></div>
-  </div>
+  <h1>AI Voice Assistant</h1>
+  <p>Start speaking and see the AI respond in real time 🎙️</p>
 
-  <script>
-    // Define the API Key and Agent ID
-    const API_KEY = "sk_b1f548a76a483942b3658f1948019e1ffb3a62f2616d5a41"; // Your actual API key
-    const AGENT_ID = "RjxwQJi2L14jPiXtEmOo"; // Your actual Agent ID
+  <!-- ElevenLabs Convai Widget -->
+  <elevenlabs-convai 
+    agent-id="RjxwQJi2L14jPiXtEmOo"
+    user-id="user_123"
+  ></elevenlabs-convai>
 
-    const startButton = document.getElementById("startButton");
-    const statusElement = document.querySelector('.status');
-    const responseElement = document.querySelector('.response');
-
-    // Initialize the SpeechRecognition API
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.continuous = false; // Stop recognition after one sentence
-    recognition.interimResults = false; // Get only final results
-    recognition.lang = 'en-US'; // Set the language
-
-    recognition.onstart = () => {
-      statusElement.innerText = "Listening... 🎤";
-      startButton.disabled = true;
-    };
-
-    recognition.onend = () => {
-      statusElement.innerText = "Stopped listening.";
-      startButton.disabled = false;
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event);
-      statusElement.innerText = "Error occurred during speech recognition.";
-      startButton.disabled = false;
-    };
-
-    recognition.onresult = async function (event) {
-      const userMessage = event.results[0][0].transcript;
-      statusElement.innerText = "Sending message...";
-
-      try {
-        const response = await fetch("https://api.elevenlabs.io/v1/messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`,
-          },
-          body: JSON.stringify({
-            agent_id: "RjxwQJi2L14jPiXtEmOo", // Ensure the Agent ID is a string
-            message: userMessage,
-          })
-        });
-
-        if (!response.ok) {
-          const errorDetails = await response.json();
-          console.error("API error:", errorDetails);
-          statusElement.innerText = "An error occurred with the AI service.";
-          return;
-        }
-
-        const data = await response.json();
-        console.log("AI Response:", data);  // Log the full response to debug
-
-        const aiResponse = data.responseText || data.message || "No response from AI";  // Adjust based on actual response
-        responseElement.innerText = `AI says: ${aiResponse}`;
-
-        // Optionally, use the SpeechSynthesis API to read out the AI's response
-        const utterance = new SpeechSynthesisUtterance(aiResponse);
-        speechSynthesis.speak(utterance);
-      } catch (error) {
-        console.error("Error sending message:", error);
-        statusElement.innerText = "An error occurred while talking to AI.";
-      }
-    };
-
-    // Start the speech recognition when the button is clicked
-    startButton.addEventListener("click", () => {
-      recognition.start();
-    });
-  </script>
+  <!-- ElevenLabs Convai Script -->
+  <script 
+    src="https://elevenlabs.io/convai-widget/index.js" 
+    async 
+    type="text/javascript"
+  ></script>
 
 </body>
 </html>
