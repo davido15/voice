@@ -1,38 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Voice Agent</title>
-    <meta charset="UTF-8" />
-    <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
-    <style>
-      body {
-        background-color: #0f172a;
-        color: white;
-        font-family: sans-serif;
-        text-align: center;
-        padding: 40px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>AI Voice Assistant</h1>
-    <elevenlabs-convai agent-id="RjxwQJi2L14jPiXtEmOo"></elevenlabs-convai>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Agent</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .mic-button {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #3b82f6;
+      color: white;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .mic-button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Mic Button -->
+  <div class="mic-button" id="micButton">
+    🎤
+  </div>
 
-    <script>
-      // Get location and send to React Native
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const coords = {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          };
-          window.ReactNativeWebView?.postMessage(JSON.stringify(coords));
-        },
-        (err) => {
-          console.error("Location error:", err);
-          window.ReactNativeWebView?.postMessage(JSON.stringify({ error: err.message }));
-        }
-      );
-    </script>
-  </body>
+  <!-- Hidden ElevenLabs Script -->
+  <elevenlabs-convai agent-id="RjxwQJi2L14jPiXtEmOo" id="convai-widget" style="display:none;"></elevenlabs-convai>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+
+  <script>
+    // When the button is clicked, we start the ElevenLabs conversation
+    document.getElementById("micButton").addEventListener("click", function () {
+      const convaiWidget = document.getElementById("convai-widget");
+
+      // If the widget is not initialized, start the conversation
+      if (!convaiWidget) return;
+
+      convaiWidget.startSession(); // Start the session when the mic button is pressed
+    });
+  </script>
+</body>
 </html>
