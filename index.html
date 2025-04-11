@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Powered Voice Assistant</title>
   <style>
+    /* Custom Button Style */
     body {
       display: flex;
       justify-content: center;
@@ -13,6 +14,7 @@
       margin: 0;
       background-color: #f3f4f6;
     }
+
     .mic-button {
       width: 80px;
       height: 80px;
@@ -26,8 +28,15 @@
       cursor: pointer;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
     .mic-button:hover {
       background-color: #2563eb;
+    }
+
+    .status {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -38,57 +47,44 @@
     🎤
   </div>
 
+  <div class="status"></div>
+
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+
   <script>
-    const API_URL = 'https://api.elevenlabs.io/v1/conversation/start'; // Replace with actual ElevenLabs API endpoint
-    const AGENT_ID = 'YOUR_AGENT_ID';  // Replace with your agent ID
+    document.addEventListener('DOMContentLoaded', () => {
+      const API_KEY = "sk_b1f548a76a483942b3658f1948019e1ffb3a62f2616d5a41"; // Replace with your API Key
+      const AGENT_ID = "RjxwQJi2L14jPiXtEmOo"; // Replace with your Agent ID
 
-    // Button to start the conversation
-    const micButton = document.getElementById("micButton");
+      // Ensure the ConvAI Widget is initialized
+      const convaiWidget = window.convaiWidget;
 
-    // Voice recognition setup
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.continuous = false;
-    recognition.interimResults = false;
+      if (!convaiWidget) {
+        console.error("ConvAI Widget is not initialized. Make sure the script is loaded.");
+        return;
+      }
 
-    // Start the conversation when mic button is clicked
-    micButton.addEventListener("click", function() {
-      console.log("Starting conversation...");
-
-      // Start voice recognition
-      recognition.start();
-    });
-
-    // When the voice is recognized, send to ElevenLabs API
-    recognition.onresult = async (event) => {
-      const userMessage = event.results[0][0].transcript;
-
-      console.log('User said:', userMessage);
-
-      // Send message to ElevenLabs API
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer sk_b1f548a76a483942b3658f1948019e1ffb3a62f2616d5a41'  // Replace with your API key
-        },
-        body: JSON.stringify({
-          agent_id: RjxwQJi2L14jPiXtEmOo,
-          message: userMessage,
-        })
+      // Initialize the widget with API Key and Agent ID
+      convaiWidget.init({
+        apiKey: sk_b1f548a76a483942b3658f1948019e1ffb3a62f2616d5a41,
+        agentId: RjxwQJi2L14jPiXtEmOo
       });
 
-      const data = await response.json();
-      const aiResponse = data.message; // Assuming the response has the AI's message
+      // Add event listener to the microphone button
+      const micButton = document.getElementById("micButton");
+      micButton.addEventListener("click", () => {
+        // Check if the widget is available
+        if (convaiWidget && typeof convaiWidget.startSession === "function") {
+          // Start the session if not already started
+          convaiWidget.startSession();
 
-      console.log('AI Response:', aiResponse);
-
-      // You can further process the AI's response, e.g., display it on the screen, or use Text-to-Speech for the response.
-    };
-
-    recognition.onerror = function(event) {
-      console.error("Speech recognition error", event.error);
-    };
+          // Update the status message
+          document.querySelector('.status').innerText = "Session Started! 🎤";
+        } else {
+          console.error("ConvAI Widget is not initialized correctly or missing startSession function.");
+        }
+      });
+    });
   </script>
 
 </body>
