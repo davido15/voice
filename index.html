@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Voice Assistant</title>
+  <title>AI Voice Chat</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,47 +12,40 @@
     body {
       margin: 0;
       height: 100vh;
+      background: #f3f4f6;
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
     }
 
     h1 {
-      color: #1f2937;
       margin-bottom: 8px;
+      color: #1f2937;
     }
 
     p {
-      color: #4b5563;
+      color: #6b7280;
       margin-bottom: 24px;
     }
 
     elevenlabs-convai {
       width: 350px;
-      max-width: 100%;
+      max-width: 90%;
     }
   </style>
 </head>
 <body>
 
-  <h1>AI Voice Assistant</h1>
-  <p>Start speaking and see the AI respond in real time 🎙️</p>
+  <h1>Talk to AI</h1>
+  <p>Ask anything — just speak 🎤</p>
 
-  <!-- ElevenLabs Convai Widget -->
-  <elevenlabs-convai 
-    agent-id="RjxwQJi2L14jPiXtEmOo"
-    user-id="user_123"
-  ></elevenlabs-convai>
+  <!-- Your ElevenLabs Agent -->
+  <elevenlabs-convai agent-id="RjxwQJi2L14jPiXtEmOo"></elevenlabs-convai>
 
-  <!-- ElevenLabs Convai Script -->
-  <script 
-    src="https://elevenlabs.io/convai-widget/index.js" 
-    async 
-    type="text/javascript"
-  ></script>
+  <!-- Load ElevenLabs Widget Script -->
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
 </body>
 </html>
