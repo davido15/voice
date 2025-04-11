@@ -92,11 +92,11 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`,  // Ensure the API key is passed correctly as a string
+            "Authorization": `Bearer ${API_KEY}`,
           },
           body: JSON.stringify({
-            agent_id: AGENT_ID,  // Ensure the Agent ID is correctly passed
-            message: userMessage, // The transcribed speech message
+            agent_id: "RjxwQJi2L14jPiXtEmOo", // Ensure the Agent ID is a string
+            message: userMessage,
           })
         });
 
